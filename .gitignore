@@ -1,1 +1,13 @@
 target
+
+# Binaries
+/bin/
+*.exe
+*.out
+*.test
+
+# Dependency directory
+/vendor/
+
+# Go modules
+go.sum

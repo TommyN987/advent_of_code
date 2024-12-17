@@ -10,7 +10,7 @@ mod day_02;
 mod solvable;
 
 fn main() -> io::Result<()> {
-    let source_dir = "./inputs/";
+    let source_dir = "../inputs/";
     let mut inputs = Vec::with_capacity(25);
 
     for entry in read_dir(source_dir)? {
