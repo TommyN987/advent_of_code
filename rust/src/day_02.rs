@@ -44,6 +44,34 @@ impl Solvable for Day02 {
     }
 
     fn second(&self, input: &str) -> i32 {
-        0
+        let lines = input
+            .lines()
+            .map(|line| {
+                line.split_whitespace()
+                    .map(|char| char.parse::<i32>().unwrap())
+                    .collect::<Vec<i32>>()
+            })
+            .collect::<Vec<_>>();
+
+        let safe_lines_count = lines
+            .into_iter()
+            .filter(|line| {
+                if Safety::parse(line) == Safety::Safe {
+                    return true;
+                }
+
+                for i in 0..line.len() {
+                    let mut modified_line = line.clone();
+                    modified_line.remove(i);
+                    if Safety::parse(&modified_line) == Safety::Safe {
+                        return true;
+                    }
+                }
+
+                false // No safe version found
+            })
+            .count();
+
+        safe_lines_count as i32
     }
 }
