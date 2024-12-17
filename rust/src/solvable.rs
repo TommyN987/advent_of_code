@@ -1,4 +1,4 @@
-use crate::{day_01::Day01, day_02::Day02};
+use crate::solutions::{Day01, Day02, Day03};
 
 pub trait Solvable {
     fn first(&self, input: &str) -> i32;
@@ -14,6 +14,7 @@ impl Registry {
         let mut solvers: Vec<Box<dyn Solvable>> = Vec::with_capacity(25);
         solvers.push(Box::new(Day01));
         solvers.push(Box::new(Day02));
+        solvers.push(Box::new(Day03));
 
         Self { solvers }
     }

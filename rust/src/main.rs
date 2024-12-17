@@ -1,26 +1,31 @@
 use std::{
     fs::{read_dir, read_to_string},
     io,
+    path::PathBuf,
 };
 
 use solvable::Registry;
 
-mod day_01;
-mod day_02;
+mod solutions;
 mod solvable;
 
 fn main() -> io::Result<()> {
     let source_dir = "../inputs/";
     let mut inputs = Vec::with_capacity(25);
 
-    for entry in read_dir(source_dir)? {
-        let entry = entry?;
-        let path = entry.path();
+    let mut paths: Vec<PathBuf> = read_dir(source_dir)?
+        .filter_map(|entry| entry.ok()) // Filter out any erroneous entries
+        .filter(|entry| entry.path().is_file()) // Only keep files
+        .map(|entry| entry.path()) // Extract the path
+        .collect();
 
-        if path.is_file() {
-            let input = read_to_string(path)?;
-            inputs.push(input);
-        }
+    // Sort the paths lexicographically (alphabetically)
+    paths.sort();
+
+    // Read and store the file contents
+    for path in paths {
+        let input = read_to_string(&path)?;
+        inputs.push(input);
     }
 
     let registry = Registry::new();
