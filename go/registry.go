@@ -17,6 +17,7 @@ func NewRegistry() *Registry {
 	return &Registry{
 		Solvers: []Solvable{
 			&solutions.Day01{},
+			&solutions.Day02{},
 		},
 	}
 }
