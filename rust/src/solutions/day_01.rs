@@ -15,7 +15,7 @@ impl Solvable for Day01 {
                     None
                 }
             })
-            .collect::<(Vec<_>, Vec<_>)>();
+            .collect::<(Vec<String>, Vec<String>)>();
         let (mut left, mut right) = input;
 
         left.sort();

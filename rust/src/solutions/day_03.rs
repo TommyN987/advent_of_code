@@ -35,7 +35,41 @@ impl Solvable for Day03 {
     }
 
     fn second(&self, input: &str) -> i32 {
-        0
+        let mut lexer = Lexer::new(input);
+        let mut iter = lexer.lex().into_iter().peekable();
+
+        let mut disabled = false;
+        let mut sum = 0;
+
+        while let Some(token) = iter.next() {
+            if let Token::Do = token {
+                disabled = false;
+            }
+            if let Token::Dont = token {
+                disabled = true;
+            }
+            if let Token::Mul = token {
+                if iter.peek() == Some(&Token::LeftParen) {
+                    iter.next();
+
+                    if let Some(Token::Int(x)) = iter.next() {
+                        if iter.peek() == Some(&Token::Comma) {
+                            iter.next();
+
+                            if let Some(Token::Int(y)) = iter.next() {
+                                if iter.peek() == Some(&Token::RightParen) {
+                                    iter.next();
+                                    if !disabled {
+                                        sum += x * y;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        sum
     }
 }
 
@@ -75,7 +109,7 @@ impl<'a> Lexer<'a> {
         let mut value = String::from(c);
 
         while let Some(ch) = self.source.peek() {
-            if *ch == ' ' || !ch.is_alphabetic() {
+            if !ch.is_alphabetic() && *ch != '\'' {
                 break;
             } else {
                 value.push(*ch);
@@ -85,6 +119,10 @@ impl<'a> Lexer<'a> {
 
         if value == "mul" {
             Token::Mul
+        } else if value == "do" {
+            Token::Do
+        } else if value == "don't" {
+            Token::Dont
         } else {
             Token::Invalid
         }
@@ -128,6 +166,8 @@ enum Token {
     Comma,
     Int(i32),
     Mul,
+    Do,
+    Dont,
     Invalid,
     Eof,
 }
