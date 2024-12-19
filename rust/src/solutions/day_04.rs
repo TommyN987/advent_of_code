@@ -26,7 +26,7 @@ impl Solvable for Day04 {
 
         for r in 0..rows {
             for c in 0..cols {
-                count += count_matches(&mut grid.clone(), r as i32, c as i32);
+                count += count_matches(&grid, r as i32, c as i32);
             }
         }
 
@@ -38,7 +38,7 @@ impl Solvable for Day04 {
     }
 }
 
-fn count_matches(grid: &mut Vec<Vec<char>>, start_row: i32, start_col: i32) -> i32 {
+fn count_matches(grid: &Vec<Vec<char>>, start_row: i32, start_col: i32) -> i32 {
     let mut total_matches = 0;
 
     for &(dx, dy) in &DIRECTIONS {
@@ -50,14 +50,7 @@ fn count_matches(grid: &mut Vec<Vec<char>>, start_row: i32, start_col: i32) -> i
     total_matches
 }
 
-fn search_word(
-    grid: &mut Vec<Vec<char>>,
-    index: usize,
-    row: i32,
-    col: i32,
-    dx: i32,
-    dy: i32,
-) -> bool {
+fn search_word(grid: &Vec<Vec<char>>, index: usize, row: i32, col: i32, dx: i32, dy: i32) -> bool {
     // Base case: all characters matched
     if index == XMAS.len() {
         return true;
@@ -73,15 +66,8 @@ fn search_word(
         return false;
     }
 
-    // Temporarily mark the cell as visited
-    let original_char = grid[row as usize][col as usize];
-    grid[row as usize][col as usize] = '#';
-
     // Move to the next character in the given direction
     let result = search_word(grid, index + 1, row + dx, col + dy, dx, dy);
-
-    // Restore the cell's original state
-    grid[row as usize][col as usize] = original_char;
 
     result
 }
