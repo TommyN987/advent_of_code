@@ -13,6 +13,20 @@ const DIRECTIONS: [(i32, i32); 8] = [
     (-1, -1),
 ];
 
+const TOP_MAS_PATTERN: [[(char, usize, usize); 3]; 2] = [
+    // Forward MAS
+    [('M', 0, 0), ('A', 1, 1), ('S', 2, 2)],
+    // Reversed MAS
+    [('S', 0, 0), ('A', 1, 1), ('M', 2, 2)],
+];
+
+const BOTTOM_MAS_PATTERN: [[(char, usize, usize); 3]; 2] = [
+    // Forward MAS
+    [('M', 2, 0), ('A', 1, 1), ('S', 0, 2)],
+    // Reversed MAS
+    [('S', 2, 0), ('A', 1, 1), ('M', 0, 2)],
+];
+
 pub struct Day04;
 
 impl Solvable for Day04 {
@@ -34,7 +48,22 @@ impl Solvable for Day04 {
     }
 
     fn second(&self, input: &str) -> i32 {
-        0
+        let grid: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
+
+        let mut count = 0;
+
+        let rows = grid.len();
+        let cols = grid[0].len();
+
+        for r in 0..(rows - 2) {
+            for c in 0..(cols - 2) {
+                if is_xmas(&grid, r, c) {
+                    count += 1;
+                }
+            }
+        }
+
+        count
     }
 }
 
@@ -70,4 +99,22 @@ fn search_word(grid: &Vec<Vec<char>>, index: usize, row: i32, col: i32, dx: i32,
     let result = search_word(grid, index + 1, row + dx, col + dy, dx, dy);
 
     result
+}
+
+fn is_xmas(grid: &[Vec<char>], row: usize, col: usize) -> bool {
+    for top_pattern in &TOP_MAS_PATTERN {
+        for bottom_pattern in &BOTTOM_MAS_PATTERN {
+            if top_pattern
+                .iter()
+                .all(|&(ch, dr, dc)| grid[row + dr][col + dc] == ch)
+                && bottom_pattern
+                    .iter()
+                    .all(|&(ch, dr, dc)| grid[row + dr][col + dc] == ch)
+            {
+                return true;
+            }
+        }
+    }
+
+    false
 }
