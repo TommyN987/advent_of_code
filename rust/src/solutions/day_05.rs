@@ -5,7 +5,7 @@ use crate::solvable::Solvable;
 pub struct Day05;
 
 impl Solvable for Day05 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let (rules, updates) = self.parse_input(input);
         let mut sum = 0;
 
@@ -19,7 +19,7 @@ impl Solvable for Day05 {
         sum
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let (rules, updates) = self.parse_input(input);
 
         let invalid_updates = updates
@@ -65,7 +65,7 @@ impl Solvable for Day05 {
 }
 
 impl Day05 {
-    fn parse_input(&self, input: &str) -> (Vec<(i32, i32)>, Vec<Vec<i32>>) {
+    fn parse_input(&self, input: &str) -> (Vec<(i64, i64)>, Vec<Vec<i64>>) {
         let split = input.split("\n\n").collect::<Vec<_>>();
         let rules = split[0];
         let updates = split[1];
@@ -75,7 +75,7 @@ impl Day05 {
             .map(|line| {
                 let rule = line
                     .split('|')
-                    .map(|num| num.parse::<i32>().unwrap())
+                    .map(|num| num.parse::<i64>().unwrap())
                     .collect::<Vec<_>>();
 
                 (rule[0], rule[1])
@@ -86,7 +86,7 @@ impl Day05 {
             .lines()
             .map(|line| {
                 line.split(',')
-                    .map(|u| u.parse::<i32>().unwrap())
+                    .map(|u| u.parse::<i64>().unwrap())
                     .collect::<Vec<_>>()
             })
             .collect::<Vec<_>>();
@@ -94,7 +94,7 @@ impl Day05 {
         (rules, updates)
     }
 
-    fn is_valid_update(&self, rules: &[(i32, i32)], update: &[i32]) -> bool {
+    fn is_valid_update(&self, rules: &[(i64, i64)], update: &[i64]) -> bool {
         let index_map = update
             .iter()
             .enumerate()
@@ -112,7 +112,7 @@ impl Day05 {
         true
     }
 
-    fn topological_sort(&self, state: &mut State) -> Vec<i32> {
+    fn topological_sort(&self, state: &mut State) -> Vec<i64> {
         let mut res = vec![];
 
         while let Some(node) = state.no_deps.pop() {
@@ -129,16 +129,16 @@ impl Day05 {
     }
 }
 
-type Graph = HashMap<i32, HashSet<i32>>;
+type Graph = HashMap<i64, HashSet<i64>>;
 
 struct State {
     depends_on: Graph,
     dependents: Graph,
-    no_deps: Vec<i32>,
+    no_deps: Vec<i64>,
 }
 
 impl State {
-    fn resolve(&mut self, dependent: &i32, dependency: &i32) {
+    fn resolve(&mut self, dependent: &i64, dependency: &i64) {
         if let Some(deps) = self.depends_on.get_mut(dependent) {
             deps.remove(dependency);
 
@@ -149,12 +149,12 @@ impl State {
         }
     }
 
-    fn get_dependents(&self, dependency: &i32) -> Option<&HashSet<i32>> {
+    fn get_dependents(&self, dependency: &i64) -> Option<&HashSet<i64>> {
         self.dependents.get(dependency)
     }
 }
 
-fn add_edge(graph: &mut Graph, from: i32, to: i32) {
+fn add_edge(graph: &mut Graph, from: i64, to: i64) {
     graph
         .entry(from)
         .and_modify(|pointees| {

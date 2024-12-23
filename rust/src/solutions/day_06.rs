@@ -1,5 +1,5 @@
 use std::{
-    collections::{HashMap, HashSet},
+    collections::HashSet,
     time::Instant,
 };
 
@@ -89,14 +89,14 @@ struct GridState {
 }
 
 impl Solvable for Day06 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let mut grid_state = self.process_input(input);
-        self.simulate_patrol(&mut grid_state) as i32
+        self.simulate_patrol(&mut grid_state) as i64
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let mut grid_state = self.process_input(input);
-        self.find_loop_positions(&mut grid_state) as i32
+        self.find_loop_positions(&mut grid_state) as i64
     }
 }
 

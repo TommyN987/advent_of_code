@@ -7,7 +7,7 @@ enum Safety {
 }
 
 impl Safety {
-    fn parse(input: &[i32]) -> Self {
+    fn parse(input: &[i64]) -> Self {
         let is_increasing = input.windows(2).all(|pair| pair[1] > pair[0]);
         let is_decreasing = input.windows(2).all(|pair| pair[1] < pair[0]);
         let valid_differences = input
@@ -25,31 +25,31 @@ impl Safety {
 pub struct Day02;
 
 impl Solvable for Day02 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let lines = input
             .lines()
             .map(|line| {
                 line.split_whitespace()
-                    .map(|char| char.parse::<i32>().unwrap())
-                    .collect::<Vec<i32>>()
+                    .map(|char| char.parse::<i64>().unwrap())
+                    .collect::<Vec<i64>>()
             })
             .collect::<Vec<_>>();
 
-        let safe_lines: Vec<Vec<i32>> = lines
+        let safe_lines: Vec<Vec<i64>> = lines
             .into_iter()
             .filter(|line| Safety::parse(line) == Safety::Safe)
             .collect();
 
-        safe_lines.len() as i32
+        safe_lines.len() as i64
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let lines = input
             .lines()
             .map(|line| {
                 line.split_whitespace()
-                    .map(|char| char.parse::<i32>().unwrap())
-                    .collect::<Vec<i32>>()
+                    .map(|char| char.parse::<i64>().unwrap())
+                    .collect::<Vec<i64>>()
             })
             .collect::<Vec<_>>();
 
@@ -72,6 +72,6 @@ impl Solvable for Day02 {
             })
             .count();
 
-        safe_lines_count as i32
+        safe_lines_count as i64
     }
 }

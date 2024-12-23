@@ -5,7 +5,7 @@ use crate::solvable::Solvable;
 pub struct Day03;
 
 impl Solvable for Day03 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let mut lexer = Lexer::new(input);
         let mut iter = lexer.lex().into_iter().peekable();
 
@@ -34,7 +34,7 @@ impl Solvable for Day03 {
         sum
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let mut lexer = Lexer::new(input);
         let mut iter = lexer.lex().into_iter().peekable();
 
@@ -102,7 +102,7 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        Token::Int(value.parse::<i32>().unwrap())
+        Token::Int(value.parse::<i64>().unwrap())
     }
 
     fn handle_word(&mut self, c: char) -> Token {
@@ -164,7 +164,7 @@ enum Token {
     LeftParen,
     RightParen,
     Comma,
-    Int(i32),
+    Int(i64),
     Mul,
     Do,
     Dont,

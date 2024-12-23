@@ -1,8 +1,8 @@
-use crate::solutions::{Day01, Day02, Day03, Day04, Day05, Day06};
+use crate::solutions::{Day01, Day02, Day03, Day04, Day05, Day06, Day07};
 
 pub trait Solvable {
-    fn first(&self, input: &str) -> i32;
-    fn second(&self, input: &str) -> i32;
+    fn first(&self, input: &str) -> i64;
+    fn second(&self, input: &str) -> i64;
 }
 
 pub struct Registry {
@@ -18,11 +18,12 @@ impl Registry {
         solvers.push(Box::new(Day04));
         solvers.push(Box::new(Day05));
         solvers.push(Box::new(Day06));
+        solvers.push(Box::new(Day07));
 
         Self { solvers }
     }
 
-    pub fn solve(&self, inputs: &[String]) -> Vec<(i32, i32)> {
+    pub fn solve(&self, inputs: &[String]) -> Vec<(i64, i64)> {
         self.solvers
             .iter()
             .zip(inputs)

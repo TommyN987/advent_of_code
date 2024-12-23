@@ -2,7 +2,7 @@ use crate::solvable::Solvable;
 
 const XMAS: [char; 4] = ['X', 'M', 'A', 'S'];
 
-const DIRECTIONS: [(i32, i32); 8] = [
+const DIRECTIONS: [(i64, i64); 8] = [
     (0, 1),
     (0, -1),
     (1, 0),
@@ -30,7 +30,7 @@ const BOTTOM_MAS_PATTERN: [[(char, usize, usize); 3]; 2] = [
 pub struct Day04;
 
 impl Solvable for Day04 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let grid: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
 
         let mut count = 0;
@@ -40,14 +40,14 @@ impl Solvable for Day04 {
 
         for r in 0..rows {
             for c in 0..cols {
-                count += count_matches(&grid, r as i32, c as i32);
+                count += count_matches(&grid, r as i64, c as i64);
             }
         }
 
         count
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let grid: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
 
         let mut count = 0;
@@ -67,7 +67,7 @@ impl Solvable for Day04 {
     }
 }
 
-fn count_matches(grid: &Vec<Vec<char>>, start_row: i32, start_col: i32) -> i32 {
+fn count_matches(grid: &Vec<Vec<char>>, start_row: i64, start_col: i64) -> i64 {
     let mut total_matches = 0;
 
     for &(dx, dy) in &DIRECTIONS {
@@ -79,14 +79,14 @@ fn count_matches(grid: &Vec<Vec<char>>, start_row: i32, start_col: i32) -> i32 {
     total_matches
 }
 
-fn search_word(grid: &Vec<Vec<char>>, index: usize, row: i32, col: i32, dx: i32, dy: i32) -> bool {
+fn search_word(grid: &Vec<Vec<char>>, index: usize, row: i64, col: i64, dx: i64, dy: i64) -> bool {
     // Base case: all characters matched
     if index == XMAS.len() {
         return true;
     }
 
     // Check boundaries
-    if row < 0 || col < 0 || row >= grid.len() as i32 || col >= grid[0].len() as i32 {
+    if row < 0 || col < 0 || row >= grid.len() as i64 || col >= grid[0].len() as i64 {
         return false;
     }
 

@@ -5,7 +5,7 @@ use crate::solvable::Solvable;
 pub struct Day01;
 
 impl Solvable for Day01 {
-    fn first(&self, input: &str) -> i32 {
+    fn first(&self, input: &str) -> i64 {
         let input = input
             .lines()
             .filter_map(|line| {
@@ -25,14 +25,14 @@ impl Solvable for Day01 {
             .zip(right)
             .into_iter()
             .map(|(left, right)| {
-                (left.parse::<i32>())
+                (left.parse::<i64>())
                     .unwrap()
-                    .abs_diff(right.parse::<i32>().unwrap()) as i32
+                    .abs_diff(right.parse::<i64>().unwrap()) as i64
             })
             .sum()
     }
 
-    fn second(&self, input: &str) -> i32 {
+    fn second(&self, input: &str) -> i64 {
         let input = input
             .lines()
             .filter_map(|line| {
@@ -52,9 +52,9 @@ impl Solvable for Day01 {
 
         left.into_iter()
             .map(|value| match right.get(&value) {
-                Some(mul) => value.parse::<i32>().unwrap() * *mul,
+                Some(mul) => value.parse::<i64>().unwrap() * *mul,
                 None => 0,
             })
-            .sum::<i32>()
+            .sum::<i64>()
     }
 }
